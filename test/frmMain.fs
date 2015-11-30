@@ -103,6 +103,8 @@ type FormMain(Game) as form =
     member this.terrainMouseUp(sender : System.Object) = 
         //Ajoute la liste de point a la statistique pour cree un vector ou je sais pas quoi
 
+        //Vide la liste
+        ligne <- List.empty<Point>
         doPaint <- false
 
     member this.terrainMouseMove(sender : System.Object, e : MouseEventArgs) = 

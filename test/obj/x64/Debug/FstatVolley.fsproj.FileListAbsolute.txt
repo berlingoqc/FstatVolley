@@ -1,0 +1,9 @@
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\bin\Debug\test.exe.config
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\bin\Debug\test.XML
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\bin\Debug\test.exe
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\bin\Debug\test.pdb
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\bin\Debug\FSharp.Core.dll
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\bin\Debug\FSharp.Core.xml
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\bin\Debug\fr\FSharp.Core.resources.dll
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\obj\x64\Debug\test.exe
+C:\Users\will\Documents\Visual Studio 2015\Projects\test\test\obj\x64\Debug\test.pdb

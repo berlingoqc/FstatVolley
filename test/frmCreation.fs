@@ -116,7 +116,7 @@ type FormAccueil() as form =
         let nom = txtNom.Text
         let num = txtNumero.Text
         let pos = cbPosition.SelectedIndex.ToString()
-        ListJoueur <- ListJoueur |> List.append [{Nom=nom;Numero=num;Position=Some pos}]
+        ListJoueur <- ListJoueur |> List.append [{Nom=nom;Numero=num;Position=Some pos;Stat=None}]
         let ClearLine() =
             txtNom.Clear()
             txtNumero.Clear()
