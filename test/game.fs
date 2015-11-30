@@ -50,6 +50,11 @@ type Game = {
 
 type StatGame(g0:Game) =
     
+    let game = g0
+    
     //variable privee
-    member this.Frappe(num:int,frappe:Frappe,ligne:List<Point> option) =
+    member this.Frappe(num:string,frappe:Frappe,ligne:List<Point> option) =
+        let joueur = game.Joueurs |> List.find(fun x -> x.Numero=num)
         printfn ""
+                        
+        

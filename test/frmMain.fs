@@ -39,6 +39,7 @@ type FormMain(Game) as form =
 
         lstBanc.Size <- new Size(120,173)
         lstBanc.Location <- new Point(323,275)
+        for i in this.GetBanc() do lstBanc.Items.Add(i)
 
         lblPointLocal.Text <- "0"
         lblPointLocal.Name <- "local"
@@ -75,6 +76,11 @@ type FormMain(Game) as form =
                                 |])
         this.DessinTerrain()
     //Fonction utilitaire
+    member this.GetBanc() =
+        Joueurs 
+        |> List.filter (fun x -> x.Position = None)
+        |> List.map (fun x -> "#"+x.Numero+"       "+x.Nom)
+        
     member this.Draw (g:Graphics) (pen:Pen) (points:PointF list) =
         for i in 0..2..(points.Length-1) do
             g.DrawLine (pen, points.[i],points.[i+1])

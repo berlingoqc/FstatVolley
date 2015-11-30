@@ -85,13 +85,15 @@ type FormAccueil() as form =
 
         lstJoueur.Location <- new Point(20,135)
         lstJoueur.Size <- new Size(290,215)
+        
 
         btnConfirmer.Text <- "Commencer !"
         btnConfirmer.Location <- new Point(20,365)
         btnConfirmer.Size <- new Size(290,35)
         btnConfirmer.Click.AddHandler(new System.EventHandler
                 (fun s e -> this.btnCommencerClick(s,e)))
-
+    
+        
 
         //Ajoute le tout au formulaire
         this.Controls.AddRange([|
@@ -116,7 +118,7 @@ type FormAccueil() as form =
         let nom = txtNom.Text
         let num = txtNumero.Text
         let pos = cbPosition.SelectedIndex.ToString()
-        ListJoueur <- ListJoueur |> List.append [{Nom=nom;Numero=num;Position=Some pos;Stat=None}]
+        ListJoueur <- ListJoueur |> List.append [{Nom=nom;Numero=num;Position=(if pos<>"0" then Some pos else None);Stat=None}]
         let ClearLine() =
             txtNom.Clear()
             txtNumero.Clear()
@@ -128,4 +130,5 @@ type FormAccueil() as form =
     member this.btnCommencerClick(sender : System.Object, e : EventArgs) =
         game <- {Local=txtLocal.Text;Visiteur=txtVisiteur.Text;Joueurs=ListJoueur}
         this.Close()
+
 
