@@ -1,13 +1,14 @@
-﻿
-
-namespace FormGame
+﻿namespace FormGame
 
 open System.Windows.Forms
+open System.Reflection
 open System.Drawing
 open System
 
 type FormMain(Game) as form =
     inherit Form()
+
+    let pen = new Pen(brush=Brushes.Black, width = 5.f)
 
     let Local = Game.Local
     let Visiteur = Game.Visiteur
@@ -15,6 +16,7 @@ type FormMain(Game) as form =
 
     let mutable doPaint = false
     let mutable ligne = List.empty<Point>
+    let mutable listligne = List.empty<Point list>
 
     let terrain = new Panel()
 
@@ -23,6 +25,14 @@ type FormMain(Game) as form =
 
     let btnSup = new Button()
     let lstBanc = new ListBox()
+
+    let btnKill = new Button()
+    let btnBloc = new Button()
+    let btnReception = new Button()
+    let btnService = new Button()
+    let btnDig = new Button()
+    let btnSet = new Button()
+    let listBtn = [btnKill;btnBloc;btnReception;btnService;btnDig;btnSet]
 
     do form.InitializeForm
 
@@ -67,6 +77,11 @@ type FormMain(Game) as form =
         terrain.MouseUp.AddHandler(
             (fun s _ -> this.terrainMouseUp(s)))
 
+        
+        listBtn |> List.iter (fun x -> x.Text <- )
+
+        for i in listBtn do this.Controls.Add(i:>Control)
+        
         this.Controls.AddRange([|
                                 (btnSup:> Control);
                                 (lstBanc:> Control);
@@ -86,7 +101,6 @@ type FormMain(Game) as form =
             g.DrawLine (pen, points.[i],points.[i+1])
                 
     member this.DessinTerrain() =
-        let pen = new Pen(brush=Brushes.Black, width = 5.f)
         let lenX = 536.0f
         let points = ([|new PointF(0.0f,0.0f);new PointF(lenX,0.0f);
                         new PointF(lenX,0.0f);new PointF(lenX,lenX/2.f);
@@ -102,26 +116,30 @@ type FormMain(Game) as form =
                 |> this.Draw e.Graphics pen)
         printfn ""
 
+    member this.DrawPoint(p:Point) =
+        let b = new SolidBrush(Color.Red)
+        ligne <- List.append ligne [p]
+        terrain.Paint.Add(
+            fun e -> e.Graphics.FillEllipse(b,p.X,p.Y,5,5))
+        terrain.Invalidate()
+
     //Event handler dessiner ligne frappe terrain
     member this.terrainMouseDown(sender : System.Object) =
         doPaint <- true 
 
     member this.terrainMouseUp(sender : System.Object) = 
-        //Ajoute la liste de point a la statistique pour cree un vector ou je sais pas quoi
-
+        //Ajoute la liste de point au tableau de list de point
+        listligne <- List.append listligne [ligne]
         //Vide la liste
         ligne <- List.empty<Point>
         doPaint <- false
 
     member this.terrainMouseMove(sender : System.Object, e : MouseEventArgs) = 
         match doPaint with
-        | true -> ligne <- List.append ligne [e.Location]
+        | true -> this.DrawPoint(e.Location)
         | _ -> ()
         printfn "%A" ligne
         
-        
-        
-
     //Event handler pour les Click
     member this.btnSupClick(sender : System.Object) =
         printfn ""
