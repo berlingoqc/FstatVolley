@@ -15,3 +15,12 @@ C:\Users\william\FstatVolley\test\bin\Debug\FSharp.Core.dll
 C:\Users\william\FstatVolley\test\bin\Debug\FSharp.Core.xml
 C:\Users\william\FstatVolley\test\obj\Debug\test.exe
 C:\Users\william\FstatVolley\test\obj\Debug\test.pdb
+C:\Users\will\Source\Repos\FstatVolley\test\bin\Debug\test.XML
+C:\Users\will\Source\Repos\FstatVolley\test\obj\Debug\test.exe
+C:\Users\will\Source\Repos\FstatVolley\test\obj\Debug\test.pdb
+C:\Users\will\Source\Repos\FstatVolley\test\bin\Debug\test.exe.config
+C:\Users\will\Source\Repos\FstatVolley\test\bin\Debug\test.exe
+C:\Users\will\Source\Repos\FstatVolley\test\bin\Debug\test.pdb
+C:\Users\will\Source\Repos\FstatVolley\test\bin\Debug\FSharp.Core.dll
+C:\Users\will\Source\Repos\FstatVolley\test\bin\Debug\FSharp.Core.xml
+C:\Users\will\Source\Repos\FstatVolley\test\bin\Debug\fr\FSharp.Core.resources.dll

@@ -32,6 +32,13 @@ type FormAccueil() as form =
     let lstJoueur = new ListBox()
 
     let btnConfirmer = new Button()
+
+
+    let stat = { Bloc=List.empty<FormGame.Bloque>;
+                     Frappe=List.empty<FormGame.Frappe * (Point) list * float>;
+                     Dig=List.empty<int>;
+                     Service=List.empty<FormGame.Service>;
+                     Reception=List.empty<FormGame.Reception>}
     
     //Fonction privée
 
@@ -118,7 +125,8 @@ type FormAccueil() as form =
         let nom = txtNom.Text
         let num = txtNumero.Text
         let pos = cbPosition.SelectedIndex.ToString()
-        ListJoueur <- ListJoueur |> List.append [{Nom=nom;Numero=num;Position=(if pos<>"0" then Some pos else None);Stat=None}]
+
+        ListJoueur <- ListJoueur |> List.append [{Nom=nom;Numero=num;Position=(if pos<>"0" then Some pos else None);Stat=stat}]
         let ClearLine() =
             txtNom.Clear()
             txtNumero.Clear()
@@ -128,7 +136,13 @@ type FormAccueil() as form =
         ListJoueur |> printfn "%A"
 
     member this.btnCommencerClick(sender : System.Object, e : EventArgs) =
+        let test = [("Charles","1");("Dan","2");("Wil","3");
+                    ("Sam","4");("Louis","5");("Oli","6");
+                    ("Alean","7")]
+        let test2 = [None;Some("1");Some("2");Some("3");Some("4");Some("5");Some("6")]
+        ListJoueur <- List.map2( fun x y -> {Nom=(fst x);Numero=(snd x);Stat=stat;Position=y}) test test2
         game <- {Local=txtLocal.Text;Visiteur=txtVisiteur.Text;Joueurs=ListJoueur}
         this.Close()
+
 
 
