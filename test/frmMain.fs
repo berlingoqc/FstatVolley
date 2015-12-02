@@ -162,7 +162,7 @@ type FormMain(Game) as form =
         this.InitButtons(listBtn,strname,new Size(59,59))
         
         btnKill.Click.AddHandler(
-            (fun _ _ -> this.btnKillClick()))
+            (fun s _ -> this.btnActionClick(s)))
 
         let gf = gameinfo.Court()
         let gff = gameinfo.Banc()
@@ -217,13 +217,21 @@ type FormMain(Game) as form =
         match doPaint with
         | true -> terrain.DrawPoint(e.Location); ligne <- List.append ligne [e.Location]
         | _ -> ()
-        
+    
+    member this.AskInfo(s:string list) =
+        let frm = new FormGame.frmGetInfo(s)
+        frm.ShowDialog()
+        frm.Retour    
     //Event handler pour les Click
-    member this.btnKillClick() =
-        match lstJoueurTerrain.SelectedItem.ToString() with
-        | null -> printfn "Selectionner un joueur"
-        | name -> gameinfo.AjouterFrappe(name,Kill,5.,listligne.Head);
-                  SupLigne();
-                  terrain.DrawTerrain()
-                  listligne |> List.iter(fun x -> terrain.DrawLine(x))        
-       
+    member this.btnActionClick(sender : System.Object) =
+        //Le nom du joueur selectioner sur le terrain
+        let name = 
+            match lstJoueurTerrain.SelectedItem.ToString() with
+            | null -> ""
+            | name -> name
+
+        let fra = ["Kill";"Touch";"Contrer";"Out";"Over"]
+        let blo = ["Kill";"Touch";"Erreur"]
+        //Demande avec un form le type ex : frappe ( kill touch , ...)   
+        match (sender:?>Button).Name with
+        | "Kill" -> gameinfo.AjouterFrappe(name,(this.AskInfo(fra)|> fun x -> FormGame.M.Attack(x)),5.,listligne.Head)

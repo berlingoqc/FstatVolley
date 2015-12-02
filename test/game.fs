@@ -13,6 +13,12 @@ type Erreur =
 | Filet
 | Traverser
 | Over
+| Out
+
+type Dig =
+| FreeBall
+| Def
+| Touch
 
 type Frappe =
 | Kill
@@ -20,7 +26,7 @@ type Frappe =
 | Erreur of Erreur
 
 type Service =
-| Ace
+| Ace 
 | One
 | Two
 | Three
@@ -33,12 +39,27 @@ type Reception =
 | Three
 | Four
 
+type M =
+    static member Attack(s) =
+        match s with
+        | "Kill" -> Kill
+        | "Touch" -> Bloc Bloque.Touch
+        | "Contrer" -> Bloc Bloque.Kill
+        | "Out" -> Erreur Out 
+        | "Over" -> Erreur Traverser
+    static member Bloc(s) =
+        match s with
+        | "Kill" -> Bloque.Kill
+        | "Touch" -> Bloque.Touch
+        | "Erreur" -> Bloque.Erreur
+         
 type PlayerStat = {
-    mutable Bloc : Bloque list
+    mutable Bloc : (Bloque * float) list
     mutable Frappe : (Frappe * (Point list) * float) list
-    mutable Dig : int list
-    mutable Service : Service list
-    mutable Reception : Reception list
+    mutable Dig : (Dig * float) list
+    mutable Service : (Service * (Point list) * float) list
+    mutable Reception : (Reception * float) list
+    mutable Set: (Point list*float) list
 }
 type Joueur = {
     Nom : string
@@ -96,6 +117,7 @@ type TerrainVolley() as terrain =
 
 
 
+
 type StatGame(g0:Game) =
     
     let game = g0
@@ -106,8 +128,6 @@ type StatGame(g0:Game) =
     //Score des deux equipes
     let mutable sV = 0
     let mutable sL = 0
-
-    let roasseur = 1
 
     //Vrai si service possesion service
     let mutable service = true
@@ -133,4 +153,23 @@ type StatGame(g0:Game) =
     member this.AjouterFrappe(num:string,frappe:Frappe,temps:float,ligne:List<Point>) =
         let i = this.Joueurs num
         game.Joueurs.[i].Stat.Frappe <- List.append game.Joueurs.[i].Stat.Frappe [(frappe,ligne,temps)]                                
-        printfn "%A" game.Joueurs.[i]
+        printfn "%A" game.Joueurs.[i].Stat.Frappe
+    member this.AjouterBloc(nom:string,bloc:Bloque,temps:float) =
+        let i = this.Joueurs nom
+        game.Joueurs.[i].Stat.Bloc <- List.append game.Joueurs.[i].Stat.Bloc [(bloc,temps)]
+
+    member this.AjouterDig(nom:string,dig:Dig,temps:float) =
+        let i = this.Joueurs nom
+        game.Joueurs.[i].Stat.Dig <- List.append game.Joueurs.[i].Stat.Dig [(dig,temps)]
+
+    member this.AjouterRecep(nom:string,recp:Reception,temps:float) =
+        let i = this.Joueurs nom
+        game.Joueurs.[i].Stat.Reception <- List.append game.Joueurs.[i].Stat.Reception [(recp,temps)]
+        
+    member this.AjouterService(nom:string,ser:Service,temps:float,ligne:List<Point>) =
+        let i = this.Joueurs nom
+        game.Joueurs.[i].Stat.Service <- List.append game.Joueurs.[i].Stat.Service [(ser,ligne,temps)]
+
+    member this.AjouterSet(nom:string,set:List<Point>,temps:float) =
+        let i = this.Joueurs nom
+        game.Joueurs.[i].Stat.Set <- List.append game.Joueurs.[i].Stat.Set [(set,temps)]

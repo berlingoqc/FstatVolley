@@ -34,11 +34,12 @@ type FormAccueil() as form =
     let btnConfirmer = new Button()
 
 
-    let stat = { Bloc=List.empty<FormGame.Bloque>;
+    let stat = { Bloc=List.empty<FormGame.Bloque*float>;
                      Frappe=List.empty<FormGame.Frappe * (Point) list * float>;
-                     Dig=List.empty<int>;
-                     Service=List.empty<FormGame.Service>;
-                     Reception=List.empty<FormGame.Reception>}
+                     Dig=List.empty<FormGame.Dig*float>;
+                     Set=List.empty<(Point) list * float>;
+                     Service=List.empty<FormGame.Service*(Point) list * float>;
+                     Reception=List.empty<FormGame.Reception*float>}
     
     //Fonction privée
 
@@ -60,6 +61,8 @@ type FormAccueil() as form =
         //Modifie les parametres des controles du formulaire
         lblLocal.Text <- "Local"
         lblLocal.Location <- new Point(20,15)
+
+        printfn "%A" (Kill.ToString())
 
         txtLocal.Location <- new Point(135,15)
         txtLocal.Width <- 135
