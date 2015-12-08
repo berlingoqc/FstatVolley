@@ -26,6 +26,8 @@ type frmGetInfo(s:string list) as frm =
 
     do frm.Size <- new Size((s.Length)*62,97)
 
+    do frm.StartPosition <- FormStartPosition.CenterScreen
+
     let mutable ValeurRetour = ""
 
     do frm.Init()

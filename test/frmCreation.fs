@@ -48,6 +48,7 @@ type FormAccueil() as form =
     do form.InitializeForm
 
     member this.InitializeForm =
+
         //Definit les attributs formulaire
         this.Text <- "Création"
         this.Width <- 350

@@ -2,6 +2,8 @@
 
 open System.Drawing
 open System.Windows.Forms
+open System.Timers
+
 
 type Bloque =
 | Kill
@@ -40,6 +42,8 @@ type Reception =
 | Four
 
 type M =
+    static member Attack() =
+        ["Kill";"Touch";"Contrer";"Out";"Over"]
     static member Attack(s) =
         match s with
         | "Kill" -> Kill
@@ -47,6 +51,8 @@ type M =
         | "Contrer" -> Bloc Bloque.Kill
         | "Out" -> Erreur Out 
         | "Over" -> Erreur Traverser
+    static member Bloc() =
+        ["Kill";"Touch";"Erreur"]
     static member Bloc(s) =
         match s with
         | "Kill" -> Bloque.Kill
@@ -114,10 +120,47 @@ type TerrainVolley() as terrain =
             (fun x -> x.Graphics.DrawLine(pen,p.Head,p.Item(p.Length-1))))
         terrain.Invalidate()
     
+type GameTimer() as timer =
+    
+    //game, set , point
+    let g = new Timer(100.)
+    let mutable gi = 0.
+    let s = new Timer(100.)
+    let mutable si = 0.
+    let p = new Timer(100.)
+    let mutable pi = 0.
 
+    do timer.init()
 
+    member this.init() =
+        s.Elapsed.AddHandler(new ElapsedEventHandler
+                (fun s e -> this.ts(s,e)))
+        g.Elapsed.AddHandler(new ElapsedEventHandler
+                (fun s e -> this.tg(s,e)))
+        p.Elapsed.AddHandler(new ElapsedEventHandler
+                (fun s e -> this.tp(s,e)))
 
+    member this.StartGame() = g.Enabled <- true
 
+    member this.StopGame() = g.Enabled <- false;gi
+
+    member this.StartSet() = s.Enabled <- true
+
+    member this.StopSet() = s.Enabled <- false;si
+
+    member this.StartPoint() = p.Enabled <- true
+
+    member this.StopPoint() = p.Enabled <- false;pi
+    
+    member this.ts(s:System.Object, e:ElapsedEventArgs) =
+        si <- si + 0.100
+    
+    member this.tg(s:System.Object, e:ElapsedEventArgs) =
+        gi <- gi + 0.100
+
+    member this.tp(s:System.Object, e:ElapsedEventArgs) =
+        pi <- pi + 0.100
+     
 type StatGame(g0:Game) =
     
     let game = g0

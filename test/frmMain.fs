@@ -8,9 +8,6 @@ open System
 type FormMain(Game) as form =
     inherit Form()
 
-
-
-
     let gameinfo = StatGame(Game)
 
     let mutable doPaint = false
@@ -229,9 +226,7 @@ type FormMain(Game) as form =
             match lstJoueurTerrain.SelectedItem.ToString() with
             | null -> ""
             | name -> name
-
-        let fra = ["Kill";"Touch";"Contrer";"Out";"Over"]
-        let blo = ["Kill";"Touch";"Erreur"]
         //Demande avec un form le type ex : frappe ( kill touch , ...)   
         match (sender:?>Button).Name with
-        | "Kill" -> gameinfo.AjouterFrappe(name,(this.AskInfo(fra)|> fun x -> FormGame.M.Attack(x)),5.,listligne.Head)
+        | "Kill" -> gameinfo.AjouterFrappe(name,(this.AskInfo(M.Attack())|> fun x -> FormGame.M.Attack(x)),5.,listligne.Head)
+        | "Bloc" -> gameinfo.AjouterBloc(name,(this.AskInfo(M.Bloc()) |> fun x -> FormGame.M.Bloc(x)),5.)
